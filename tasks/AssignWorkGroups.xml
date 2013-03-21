@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE TaskDefinition PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<TaskDefinition executor="sailpoint.identropy.task.AssignWorkGroups"  name="Identropy WorkGroup Inventory"  >
+  <Attributes>
+    <Map>
+
+    </Map>
+  </Attributes>
+  <Description>
+            Populates all the workgroup memberships into custom
+        </Description>
+ 
+</TaskDefinition>
