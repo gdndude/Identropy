@@ -41,14 +41,14 @@ public class IdentropyContext implements IdentropyFactory {
 	@Override
 	public void save(IdentropyObject object) {
 
-		try {
-			//_custom.setName(object.getName());
-			//_custom.put("_attributes", object.getAll());
-			//_custom.put("_id", object.getId());
-			//_custom.put("_type", "IdentropyObject");
-			_custom.setAttributes(object.)
-			_custom = (Custom)object;
-			context.saveObject(_custom);
+		try {	
+			if (object.getRefId() == null)
+			{
+				context.saveObject(_custom);
+			}
+			object.setRefId(_custom.getId());
+			object.getReference();
+			_custom.setAttributes(object.getAttributes());
 			context.commitTransaction();
 		} catch (GeneralException e) {
 			log.error(e);
@@ -56,13 +56,16 @@ public class IdentropyContext implements IdentropyFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object load(Custom custom)  {
+	public IdentropyObject load(Custom custom)  {
 		IdentropyObject object;
 		try {
 			object = new IdentropyObject();
+			log.debug("Found custom : " + custom.toString());
 			object.addAll((Map<String, Object>) custom.get("_attributes"));
 			object.setID(custom.getString("_id"));
-			return (Object)object;
+			object.setName(custom.getString("_name"));
+			object.setRefId(custom.getString("_refId"));
+			return object;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log.error(e);
@@ -71,9 +74,10 @@ public class IdentropyContext implements IdentropyFactory {
 	}
 
 	@Override
-	public Object getObjectByName(String name)  {
+	public IdentropyObject getObjectByName(String name)  {
 
 		try {
+			
 			return load(context.getObjectByName(Custom.class, name));
 		} catch (GeneralException e) {
 			// TODO Auto-generated catch block
@@ -82,7 +86,7 @@ public class IdentropyContext implements IdentropyFactory {
 		return null;
 	}
 
-	public Object getObjectByUUID(String id) {
+	public IdentropyObject getObjectByUUID(String id) {
          QueryOptions options = new QueryOptions();
          
          options.addFilter(Filter.eq("_id", id));
@@ -102,12 +106,12 @@ public class IdentropyContext implements IdentropyFactory {
 	}
 
 	@Override
-	public List<Object> getObjects() {
+	public List<IdentropyObject> getObjects() {
         QueryOptions options = new QueryOptions();
         
         options.addFilter(Filter.eq("_type", "IdentropyObject"));
         Iterator iterator = null;
-        List<Object> objects = new ArrayList<Object>();
+        List<IdentropyObject> objects = new ArrayList<IdentropyObject>();
 		try {
 			iterator = context.search(Custom.class, options);
 		} catch (GeneralException e) {
@@ -119,6 +123,11 @@ public class IdentropyContext implements IdentropyFactory {
 			 objects.add(load((Custom) iterator.next()));
 		 }
 		 return objects;
+	}
+	@Override
+	public IdentropyObject load(IdentropyObject object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

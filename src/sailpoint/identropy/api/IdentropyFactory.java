@@ -13,11 +13,11 @@ public interface IdentropyFactory {
 	
 	public void initialize();
 	
-	public Object load(IdentropyObject object);
+	public IdentropyObject load(IdentropyObject object);
 	
-	public Object getObjectByName(String name);
+	public IdentropyObject getObjectByName(String name);
 	
-	public Object getObjectByUUID(String id);
+	public IdentropyObject getObjectByUUID(String id);
 	
     public List<IdentropyObject> getObjects();
 

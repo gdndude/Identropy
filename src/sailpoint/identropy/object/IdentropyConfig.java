@@ -7,8 +7,6 @@ import sailpoint.object.Application;
 
 public class IdentropyConfig extends IdentropyObject  {
 
-	IdentropyObject applications;
-	List<IdentropyObject> workgroups;
 	IdentropyObject systemConfig;
 	
 	public IdentropyConfig(String name) throws Exception {
@@ -19,24 +17,26 @@ public class IdentropyConfig extends IdentropyObject  {
 
 	public void addApplication(Application application)
 	{
-		this.addObject(application.getName(), application);
+		IdentropyObject object = null;
+		try {
+			object = new IdentropyObject();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		object.setID(application.getId());
+		object.setName(application.getName());
+		object.getAttributes().put("application", application);
+		object.getReference();
+		this.addObject(object);
 	}
 	
 	public void setApplications(List<Application> applications)
 	{
-		for (Application application:applications)
-		{
-			this.applications.addObject(application.getName(), application);
-		}
+
 	}
 	public List<Application> getApplications()
 	{
-		Set<String> keys = applications.getAll().keySet();
-		List<Application> applications = null;
-		for (String key: keys)
-		{
-			applications.add((Application) this.applications.getObject(key));
-		}
-		return applications;
+		return null;
 	}
 }
