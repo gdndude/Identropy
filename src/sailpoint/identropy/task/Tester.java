@@ -54,6 +54,7 @@ public class Tester extends AbstractTaskExecutor {
 	{
 		identropyConfig= (IdentropyConfig) identropyContext.getObjectByName("TestConfig");
 		log.info("Load TestObject : " + identropyConfig.toString());
+		
 	}
 	@Override
 	public boolean terminate() {

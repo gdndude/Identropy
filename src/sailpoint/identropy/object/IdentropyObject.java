@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.json.XML;
+
 
 import sailpoint.object.Attributes;
 import sailpoint.object.Custom;
+import sailpoint.object.SailPointObject;
 
 
-public class IdentropyObject {
+public class IdentropyObject extends SailPointObject {
 
 
 	/**
@@ -22,8 +25,8 @@ public class IdentropyObject {
 	private String _id = null;
 	private String _refId = null;
 	private String _type = null;
-	private IdentropyReference _reference = new IdentropyReference();
-	private List<String> _references = new ArrayList<String>();
+	private Attributes<String,Object> _reference = new Attributes<String,Object>();
+	private List<Attributes<String,Object>> _references = new ArrayList<Attributes<String,Object>>();
 	
 	private Attributes<String,Object> _attributes = new Attributes<String,Object>();;
 	//protected SailPointContext context;
@@ -54,22 +57,23 @@ public class IdentropyObject {
 	{
 		return _attributes;
 	}
-	public void addReference(IdentropyReference object)
+	public void addReference(Attributes<String, Object> attributes)
 	{
-		_references.add(object.toXML());	
+		_references.add(attributes);	
+		_attributes.put("_references", _references);
 	}
 	
-	public List<String> getReferences()
+	public List<Attributes<String,Object>> getReferences()
 	{
 		return _references;
 	}
-	public IdentropyReference getReference()
+	public Attributes<String,Object> getReference()
 	{
-		_reference.setId(_id);
-		_reference.setName(_name);
-		_reference.setRefId(_refId);
-		_reference.setType(_type);
-		_attributes.put("_reference", _reference.toXML());
+		_reference.put("_type", _type);
+		_reference.put("_refId", _refId);
+		_reference.put("_name", _name);
+		_reference.put("_id", _id);
+		_attributes.put("_reference", _reference);
 		return this._reference;
 	}
 	
