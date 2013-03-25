@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import sailpoint.api.SailPointContext;
 import sailpoint.api.SailPointFactory;
+import sailpoint.identropy.object.IdentropyConfig;
 import sailpoint.identropy.object.IdentropyObject;
 import sailpoint.identropy.task.Tester;
 import sailpoint.object.Custom;
@@ -41,6 +42,7 @@ public class IdentropyContext implements IdentropyFactory {
 	@Override
 	public void save(IdentropyObject object) {
 
+		_custom = new Custom();
 		try {	
 			if (object.getRefId() == null)
 			{
@@ -49,6 +51,8 @@ public class IdentropyContext implements IdentropyFactory {
 			object.setRefId(_custom.getId());
 			object.getReference();
 			_custom.setAttributes(object.getAttributes());
+			_custom.setName(object.getName());
+			context.saveObject(_custom);
 			context.commitTransaction();
 		} catch (GeneralException e) {
 			log.error(e);
@@ -57,14 +61,20 @@ public class IdentropyContext implements IdentropyFactory {
 
 	@SuppressWarnings("unchecked")
 	public IdentropyObject load(Custom custom)  {
-		IdentropyObject object;
+		IdentropyObject object = null;
 		try {
-			object = new IdentropyObject();
+			//object = new IdentropyObject();
 			log.debug("Found custom : " + custom.toString());
-			object.addAll((Map<String, Object>) custom.get("_attributes"));
+			if (custom.getString("_type").contentEquals("_config"))
+			{
+			IdentropyConfig config = new IdentropyConfig();	
+			object = config;
+			}
+			object.addAll(custom.getAttributes());
 			object.setID(custom.getString("_id"));
 			object.setName(custom.getString("_name"));
 			object.setRefId(custom.getString("_refId"));
+			log.debug("Marshall in object : " + object.toString());
 			return object;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

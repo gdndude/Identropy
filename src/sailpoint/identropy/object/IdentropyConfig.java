@@ -11,24 +11,19 @@ public class IdentropyConfig extends IdentropyObject  {
 	
 	public IdentropyConfig(String name) throws Exception {
 		super(name);
+		setType("_config");
         
 	}
 
 
-	public void addApplication(Application application)
+	public IdentropyConfig() throws Exception {
+		setType("_config");
+	}
+
+
+	public void addApplication(IdentropyApplication application)
 	{
-		IdentropyObject object = null;
-		try {
-			object = new IdentropyObject();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		object.setID(application.getId());
-		object.setName(application.getName());
-		object.getAttributes().put("application", application);
-		object.getReference();
-		this.addObject(object);
+		this.addReference(application.getReference());
 	}
 	
 	public void setApplications(List<Application> applications)

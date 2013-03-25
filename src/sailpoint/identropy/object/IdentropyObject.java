@@ -54,12 +54,15 @@ public class IdentropyObject {
 	{
 		return _attributes;
 	}
-	public void addObject(IdentropyObject object)
+	public void addReference(IdentropyReference object)
 	{
-		_references.add(object.getReference().toXML());
-		
+		_references.add(object.toXML());	
 	}
 	
+	public List<String> getReferences()
+	{
+		return _references;
+	}
 	public IdentropyReference getReference()
 	{
 		_reference.setId(_id);
@@ -73,6 +76,11 @@ public class IdentropyObject {
 	public void addAll(Map<String,Object> map)
 	{
 		_attributes.putAll(map);
+	}
+	
+	public void addObject(String key, Object object)
+	{
+		_attributes.put(key,object);
 	}
 	
 	
@@ -101,6 +109,15 @@ public class IdentropyObject {
 	{
 		_name=name;
 		_attributes.put("_name", _name);
+	}
+	public void setType(String type)
+	{
+		_type = type;
+		_attributes.put("_type", _type);
+	}
+	public String getType()
+	{
+		return _type;
 	}
 	
 	private void setUUID() throws Exception
