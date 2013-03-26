@@ -21,13 +21,8 @@ public class IdentropyObject extends SailPointObject {
 	 * 
 	 */
 	private static final long serialVersionUID = -3993477927680121316L;
-	private String _name = null;
-	private String _id = null;
-	private String _refId = null;
-	private String _type = null;
 	private Attributes<String,Object> _reference = new Attributes<String,Object>();
 	private List<Attributes<String,Object>> _references = new ArrayList<Attributes<String,Object>>();
-	
 	private Attributes<String,Object> _attributes = new Attributes<String,Object>();;
 	//protected SailPointContext context;
 	
@@ -42,16 +37,11 @@ public class IdentropyObject extends SailPointObject {
 		setUUID();
 		this.setName(name);
 	}
-	public void setRefId(String refId)
+	public void setRefId(String _refId)
 	{
-		_refId = refId;
 		_attributes.put("_refId", _refId);
-		//addObject("_refId", _refId);
 	}
-	public String getRefId()
-	{
-		return _refId;
-	}
+
 
 	public Attributes<String,Object> getAttributes()
 	{
@@ -69,10 +59,10 @@ public class IdentropyObject extends SailPointObject {
 	}
 	public Attributes<String,Object> getReference()
 	{
-		_reference.put("_type", _type);
-		_reference.put("_refId", _refId);
-		_reference.put("_name", _name);
-		_reference.put("_id", _id);
+		_reference.put("_type", getObject("_type"));
+		_reference.put("_refId", getObject("_refId"));
+		_reference.put("_name", getObject("_name"));
+		_reference.put("_id", getObject("_id"));
 		_attributes.put("_reference", _reference);
 		return this._reference;
 	}
@@ -97,36 +87,38 @@ public class IdentropyObject extends SailPointObject {
 	{
 		return _attributes;
 	}
-	
+	public String getRefId()
+	{	
+		return (String)getObject("_refId");
+	}
 	
 	public String getName()
 	{
-		return _name;
+		return (String)getObject("_name");
 	}
 	
 	public String getId()
 	{
-		return _id;
+		return (String)getObject("_id");
 	}
 	
 	public void setName(String name)
 	{
-		_name=name;
-		_attributes.put("_name", _name);
+		_attributes.put("_name", name);
 	}
 	public void setType(String type)
 	{
-		_type = type;
-		_attributes.put("_type", _type);
+		_attributes.put("_type", type);
 	}
 	public String getType()
 	{
-		return _type;
+		return (String)getObject("_type");
 	}
 	
 	private void setUUID() throws Exception
 	{
-		if (_id == null){	
+		String _id = null;
+		if (getObject("_id") == null){	
 			_id = UUID.randomUUID().toString();
 		}
 		else throw new Exception("UUID already exists");
@@ -135,8 +127,7 @@ public class IdentropyObject extends SailPointObject {
 	
 	public void setID(String id)
 	{
-		_id=id;
-		_attributes.put("_id", _id);
+		_attributes.put("_id", id);
 	}
 
 }

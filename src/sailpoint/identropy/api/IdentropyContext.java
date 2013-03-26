@@ -71,9 +71,9 @@ public class IdentropyContext implements IdentropyFactory {
 			object = config;
 			}
 			object.addAll(custom.getAttributes());
-			object.setID(custom.getString("_id"));
-			object.setName(custom.getString("_name"));
-			object.setRefId(custom.getString("_refId"));
+			object.setId(custom.getString("_id"));
+			object.setName(custom.getName());
+			object.setRefId(custom.getId());
 			log.debug("Marshall in object : " + object.toString());
 			return object;
 		} catch (Exception e) {
